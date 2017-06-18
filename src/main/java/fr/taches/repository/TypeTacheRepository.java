@@ -12,8 +12,8 @@ import fr.taches.domain.TypeTache;
 @Component
 public interface TypeTacheRepository extends JpaRepository<TypeTache, Long> {
 	TypeTache findByNom(String nom);
-	
-	
-	
+
+
+
 	TypeTache findById(Long idTypeTache);
 }

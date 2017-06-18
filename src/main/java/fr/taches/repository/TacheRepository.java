@@ -14,10 +14,10 @@ import fr.taches.domain.Tache;
 @Component
 public interface TacheRepository extends JpaRepository<Tache, Long> {
 	Tache findByNom(String nom);
-	
-	
+
+
 	@Query("select t from Tache t where t.liste.id=?1")
 	List<Tache> getTachebyListe(Long idListe);
-	
+
 	Tache findById(Long idTache);
 }

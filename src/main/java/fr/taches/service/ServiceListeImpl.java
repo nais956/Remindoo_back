@@ -20,64 +20,65 @@ import fr.taches.repository.TypeTacheRepository;
 @Service
 public class ServiceListeImpl implements ServiceListe {
 
-    @Autowired
-    private NoteRepository noteRepository;
-    
-    @Autowired
-    private ListeRepository listeRepository;
-    
-    @Autowired
-    private TacheRepository tacheRepository;
-    
-    @Autowired
-    private TypeTacheRepository typeTacheRepository;
-    
-    @Autowired
-    Consumer jmsConsumer;
-     
-    @Autowired
-    Producer jmsProducer;
+	@Autowired
+	private NoteRepository noteRepository;
 
-    @Async
-    @Override
-    public List<Note> listNote() {
-        return noteRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));  
-    }
+	@Autowired
+	private ListeRepository listeRepository;
 
-    @Async
+	@Autowired
+	private TacheRepository tacheRepository;
+
+	@Autowired
+	private TypeTacheRepository typeTacheRepository;
+
+	@Autowired
+	Consumer jmsConsumer;
+
+	@Autowired
+	Producer jmsProducer;
+
+	@Async
 	@Override
-	public void createNote(Note newNote) {
-    	noteRepository.save(newNote);
+	public List<Note> listNote() {
+		return noteRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));  
 	}
-    
-    @Async
+
+	@Async
+	@Override
+	public void createNote(long idListe, Note newNote) {
+		Liste liste = findById(idListe);
+		newNote.setListe(liste);
+		noteRepository.save(newNote);
+	}
+
+	@Async
 	@Override
 	public List<Liste> listListe() {
-        return listeRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));
+		return listeRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));
 	}
-    
-    @Async
+
+	@Async
 	@Override
 	public void createListe(Liste newListe) {
 		listeRepository.save(newListe);
-		
 	}
 
 	@Override
 	public List<Note> getAllNotes(Long idListe) {
 		return noteRepository.getNotebyListe(idListe);
 	}
-	
+
 	@Override
 	public List<Note> getAllElements(Long idListe) {
 		return noteRepository.getElementByListe(idListe);
 	}
-	
+
 	public Liste findById(Long idListe){
 		return listeRepository.findById(idListe);
 	}
-	
-	
+
+
 	public void updateListe(Liste listeUpdated, Long idListe) {
 		Liste liste = listeRepository.findOne(idListe);
 		liste.setNom(listeUpdated.getNom());
@@ -86,10 +87,12 @@ public class ServiceListeImpl implements ServiceListe {
 
 	@Override
 	public void deleteListe(Long idListe) {
+		List<Note> listeElements = getAllElements(idListe);
+		for(Note note : listeElements){
+			deleteNote(note.getId());
+		}
 		listeRepository.delete(idListe);
-	};
-
-
+	}
 
 	@Override
 	public Note findNoteById(Long idNote) {
@@ -101,28 +104,27 @@ public class ServiceListeImpl implements ServiceListe {
 		Note note = noteRepository.findOne(idNote);
 		note.setNom(noteUpdated.getNom());
 		note.setTexte(noteUpdated.getTexte());
-		noteRepository.save(note);
-		
+		noteRepository.save(note);	
 	}
 
 	@Override
 	public void deleteNote(Long idNote) {
 		noteRepository.delete(idNote);
 	}
-	
+
 	@Override
 	public List<Tache> getAllTaches(Long idListe) {
 		return tacheRepository.getTachebyListe(idListe);
 	}
-	
-	
+
+
 	@Override
 	public Tache findTacheById(Long idTache) {
 		return tacheRepository.findById(idTache);
 	}
 
 	@Override
-	public void updateTache(Tache tacheUpdated, Long idTache) {
+	public void updateTache(Tache tacheUpdated, Long idTache) {		
 		Tache tache = tacheRepository.findOne(idTache);
 		tache.setNom(tacheUpdated.getNom());
 		tache.setTexte(tacheUpdated.getTexte());
@@ -141,13 +143,15 @@ public class ServiceListeImpl implements ServiceListe {
 	}
 
 	@Override
-	public void createTache(Tache newTache) {
+	public void createTache(long idListe, Tache newTache) {
+		Liste liste = findById(idListe);
+		TypeTache typeTache = findTypeTacheById(newTache.getTypeTache().getId());
+		newTache.setListe(liste);
+		newTache.setTypeTache(typeTache);
 		tacheRepository.save(newTache);
-		
 	}
-	
-	
-	
+
+
 	@Override
 	public TypeTache findTypeTacheById(Long idTypeTache) {
 		return typeTacheRepository.findById(idTypeTache);
@@ -173,7 +177,6 @@ public class ServiceListeImpl implements ServiceListe {
 	@Override
 	public void createTypeTache(TypeTache newTypeTache) {
 		typeTacheRepository.save(newTypeTache);
-		
 	}
 
 	@Override

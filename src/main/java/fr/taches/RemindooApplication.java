@@ -18,7 +18,7 @@ public class RemindooApplication extends SpringBootServletInitializer  {
 
 		Thread thread = new Thread(new Consumer());
 		thread.run();
-		
+
 		//SpringApplication.run(RemindooApplication.class, args);
 	}
 

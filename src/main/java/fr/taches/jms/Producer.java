@@ -25,18 +25,18 @@ public class Producer {
 	private QueueSession session;
 	private ObjectMessage message;
 	private QueueSender sender;
-	
+
 	public void sendReponse(Demande reponse) {
 
 		try{
 
 			// connection au message broker
 			connection = factory.createQueueConnection();
-			
+
 			// ouvrir session sans transaction (1 seul message) et acquitement automatique
 			session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 			connection.start();
-			
+
 			// créer et envoyer message
 			message = session.createObjectMessage(reponse);
 			sender = session.createSender(queue);

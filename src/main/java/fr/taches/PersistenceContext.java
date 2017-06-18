@@ -15,45 +15,45 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {
-        "fr.taches"
+		"fr.taches"
 })
 @EnableTransactionManagement
 public class PersistenceContext {
 
-    @Bean
-    LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-                                                                Environment env) {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactoryBean.setPackagesToScan("fr.taches");
+	@Bean
+	LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+			Environment env) {
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(dataSource);
+		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+		entityManagerFactoryBean.setPackagesToScan("fr.taches");
 
-        Properties jpaProperties = new Properties();
+		Properties jpaProperties = new Properties();
 
-        jpaProperties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
+		jpaProperties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
 
-        jpaProperties.put("hibernate.hbm2ddl.auto",
-                env.getRequiredProperty("hibernate.hbm2ddl.auto")
-        );
+		jpaProperties.put("hibernate.hbm2ddl.auto",
+				env.getRequiredProperty("hibernate.hbm2ddl.auto")
+				);
 
-        jpaProperties.put("hibernate.show_sql",
-                env.getRequiredProperty("hibernate.show_sql")
-        );
+		jpaProperties.put("hibernate.show_sql",
+				env.getRequiredProperty("hibernate.show_sql")
+				);
 
-        jpaProperties.put("hibernate.format_sql",
-                env.getRequiredProperty("hibernate.format_sql")
-        );
+		jpaProperties.put("hibernate.format_sql",
+				env.getRequiredProperty("hibernate.format_sql")
+				);
 
-        entityManagerFactoryBean.setJpaProperties(jpaProperties);
+		entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
-        return entityManagerFactoryBean;
-    }
+		return entityManagerFactoryBean;
+	}
 
-    @Bean
-    JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager;
-    }
+	@Bean
+	JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory);
+		return transactionManager;
+	}
 
 }
