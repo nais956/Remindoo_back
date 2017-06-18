@@ -9,26 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import fr.taches.domain.Note.Builder;
+//import fr.taches.domain.Note.Builder;
 
 @Entity
 
 public class Liste {
-	
+
 	@Id
-    @GeneratedValue
+	@GeneratedValue
 	private Long  id;
-	
+
 	private String nom;
-	
+
 	@ManyToOne
-    private Utilisateur utilisateur;
+	private Utilisateur utilisateur;
 
 
 	public Liste() {
 
 	}
-	
+
 
 	protected Liste(Builder liste) {
 		this.id = liste.id;
@@ -39,7 +39,7 @@ public class Liste {
 
 	@OneToMany(mappedBy = "liste")
 	private List<Note> note = new ArrayList<Note>();
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -65,33 +65,41 @@ public class Liste {
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
-	
+
 	public static class Builder {
 		private Long id;
 		private String nom;
 		private Utilisateur utilisateur;
 
-        public Builder withId(Long id) {
-            this.id = id;
-            return this;
-        }
+		public Builder withId(Long id) {
+			this.id = id;
+			return this;
+		}
 
-        public Builder withNom(String nom) {
-            this.nom = nom;
-            return this;
-        }
+		public Builder withNom(String nom) {
+			this.nom = nom;
+			return this;
+		}
 
-        public Builder withUtilisateur(Utilisateur utilisateur) {
-            this.utilisateur = utilisateur;
-            return this;
-        }
+		public Builder withUtilisateur(Utilisateur utilisateur) {
+			this.setUtilisateur(utilisateur);
+			return this;
+		}
 
 
 
-        public Liste build() {
-            return new Liste(this);
-        }
-	
-	
+		public Liste build() {
+			return new Liste(this);
+		}
+
+		public Utilisateur getUtilisateur() {
+			return utilisateur;
+		}
+
+		public void setUtilisateur(Utilisateur utilisateur) {
+			this.utilisateur = utilisateur;
+		}
+
+
 	}
 }

@@ -11,12 +11,12 @@ import javax.persistence.OneToMany;
 
 public class Utilisateur {
 	@Id
-    @GeneratedValue
+	@GeneratedValue
 	private int id;
-	
+
 	@OneToMany(mappedBy = "utilisateur")
 	private List<Liste> liste;
-	
+
 
 	public int getId() {
 		return id;
@@ -35,6 +35,6 @@ public class Utilisateur {
 	}
 
 
-	
-	
+
+
 }

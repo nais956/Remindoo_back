@@ -9,15 +9,15 @@ import javax.persistence.Id;
 @Entity
 
 public class TypeTache {
-	
+
 	@Id
-    @GeneratedValue
+	@GeneratedValue
 	private Long id;
 	private String nom;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Categorie categorie;
-	
+
 
 	public Long getId() {
 		return id;
@@ -35,9 +35,9 @@ public class TypeTache {
 	public Categorie getCategorie(){
 		return categorie;
 	}
-	
+
 	public void setCategorie(Categorie categorie){
 		this.categorie = categorie;
 	}
-	
+
 }

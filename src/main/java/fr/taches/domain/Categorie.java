@@ -5,5 +5,5 @@ public enum Categorie {
 	Maison,
 	Travail,
 	Loisirs
-	
+
 }

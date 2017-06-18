@@ -8,6 +8,9 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Tache extends Note {
 
+	private static final long serialVersionUID = 1L;
+
+
 
 	public Tache() {
 		super();
@@ -16,9 +19,9 @@ public class Tache extends Note {
 
 	@ManyToOne
 	private TypeTache typeTache;
-	
 
-	
+
+
 	public TypeTache getTypeTache() {
 		return typeTache;
 	}
@@ -35,7 +38,7 @@ public class Tache extends Note {
 
 
 
-	
-	
+
+
 
 }
